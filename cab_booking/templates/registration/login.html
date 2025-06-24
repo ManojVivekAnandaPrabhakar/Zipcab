@@ -1,0 +1,28 @@
+{% extends 'cab_booking/base.html' %}
+
+{% block title %}Login - ZipCab{% endblock %}
+
+{% block content %}
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Login to ZipCab</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p class="text-red-500 text-xs italic">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-md font-semibold text-lg hover:bg-blue-700 transition duration-300 shadow-md">Login</button>
+        </form>
+        <p class="mt-6 text-center text-gray-600">
+            Don't have an account? <a href="{% url 'register' %}" class="text-blue-600 hover:underline font-semibold">Register here</a>.
+        </p>
+        <p class="mt-2 text-center text-gray-600">
+            <a href="{% url 'password_reset' %}" class="text-blue-600 hover:underline text-sm">Forgot password?</a>
+        </p>
+    </div>
+{% endblock %}

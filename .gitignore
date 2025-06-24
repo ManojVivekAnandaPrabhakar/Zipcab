@@ -1,0 +1,24 @@
+# Ignore secret config
+.env
+.env.example
+
+# Python and Django caches
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Static/media files
+/static/
+/media/
+
+# Virtual environments
+env/
+.venv/
+
+# Logs
+*.log

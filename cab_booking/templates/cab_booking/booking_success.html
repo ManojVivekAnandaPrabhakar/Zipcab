@@ -1,0 +1,21 @@
+{% extends 'cab_booking/base.html' %}
+
+{% block title %}Booking Confirmed - ZipCab{% endblock %}
+
+{% block content %}
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-3xl font-bold text-green-600 mb-4">Booking Confirmed!</h1>
+        <p class="text-lg text-gray-700 mb-2">Your {{ choice|capfirst }} cab from <span class="font-semibold">{{ pickup }}</span> to <span class="font-semibold">{{ drop }}</span> has been successfully booked.</p>
+        <p class="text-lg text-gray-700 mb-2">Estimated Distance: <span class="font-semibold">{{ distance }} km</span></p>
+        <p class="text-2xl font-bold text-gray-800 mb-6">Estimated Fare: <span class="text-blue-600">₹{{ total_amt }}</span></p>
+        
+        <div class="flex justify-center space-x-4">
+            <a href="{% url 'home' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition duration-300">
+                Go to Home
+            </a>
+            <a href="{% url 'my_bookings' %}" class="bg-gray-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-gray-700 transition duration-300">
+                View My Bookings
+            </a>
+        </div>
+    </div>
+{% endblock %}

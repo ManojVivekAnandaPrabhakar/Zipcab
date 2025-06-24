@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ZipCab{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .message.success {
+            background-color: #d1fae5; /* Green-100 */
+            color: #065f46; /* Green-800 */
+            border: 1px solid #34d399; /* Green-400 */
+        }
+        .message.error {
+            background-color: #fee2e2; /* Red-100 */
+            color: #991b1b; /* Red-800 */
+            border: 1px solid #ef4444; /* Red-400 */
+        }
+        .message.info {
+            background-color: #e0f2fe; /* Blue-100 */
+            color: #0c4a6e; /* Blue-800 */
+            border: 1px solid #38b2ac; /* Cyan-400 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-white text-3xl font-bold rounded-md px-3 py-1 hover:bg-blue-700 transition duration-300">ZipCab</a>
+            <div class="flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <span class="text-white text-lg">Welcome, {{ user.username }}!</span>
+                    <a href="{% url 'book_cab' %}" class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-blue-100 transition duration-300">Book a Cab</a>
+                    <a href="{% url 'my_bookings' %}" class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-blue-100 transition duration-300">My Bookings</a>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-600 transition duration-300">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-blue-100 transition duration-300">Login</a>
+                    <a href="{% url 'register' %}" class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-blue-100 transition duration-300">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto p-6">
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }} shadow-sm">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto">
+        <div class="container mx-auto">
+            &copy; {% now "Y" %} ZipCab. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

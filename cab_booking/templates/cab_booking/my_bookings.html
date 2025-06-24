@@ -1,0 +1,45 @@
+{% extends 'cab_booking/base.html' %}
+
+{% block title %}My Bookings - ZipCab{% endblock %}
+
+{% block content %}
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">My Bookings</h1>
+        
+        {% if bookings %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b">Date</th>
+                            <th class="py-3 px-4 border-b">Vehicle</th>
+                            <th class="py-3 px-4 border-b">Pickup</th>
+                            <th class="py-3 px-4 border-b">Drop</th>
+                            <th class="py-3 px-4 border-b">Distance (km)</th>
+                            <th class="py-3 px-4 border-b">Fare (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 border-b text-gray-700">{{ booking.booking_time|date:"M d, Y H:i" }}</td>
+                                <td class="py-3 px-4 border-b text-gray-700">{{ booking.vehicle_choice|capfirst }}</td>
+                                <td class="py-3 px-4 border-b text-gray-700">{{ booking.pickup_location }}</td>
+                                <td class="py-3 px-4 border-b text-gray-700">{{ booking.drop_location }}</td>
+                                <td class="py-3 px-4 border-b text-gray-700">{{ booking.distance_km|floatformat:2 }}</td>
+                                <td class="py-3 px-4 border-b text-gray-700">₹{{ booking.total_amount|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-gray-600 text-lg">You haven't made any bookings yet.</p>
+            <div class="text-center mt-6">
+                <a href="{% url 'book_cab' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition duration-300">
+                    Book Your First Cab
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
