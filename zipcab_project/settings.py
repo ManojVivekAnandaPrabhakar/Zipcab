@@ -136,7 +136,7 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-ATT_API_KEY = config('ATT_API_KEY')
+API_KEY = config('API_KEY')
 
 
 LOGIN_REDIRECT_URL = '/' 

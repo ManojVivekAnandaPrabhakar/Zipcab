@@ -13,7 +13,7 @@ from django.conf import settings
 
 def get_coordinates(address):
     
-    api_key = settings 
+    api_key = settings.API_KEY
     url = f"https://api.distancematrix.ai/maps/api/geocode/json?address={address}&key={api_key}"
     try:
         response = requests.get(url, timeout=10) 
