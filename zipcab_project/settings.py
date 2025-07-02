@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import dj_database_url
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,6 +52,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -88,6 +92,10 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT':'3306',
     }
+}
+
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 
@@ -141,3 +149,21 @@ API_KEY = config('API_KEY')
 
 LOGIN_REDIRECT_URL = '/' 
 LOGOUT_REDIRECT_URL = '/' 
+
+
+
+
+#deployment
+
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
+
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise to serve static files on Heroku
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+# Optional: Enable compression (saves bandwidth)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
