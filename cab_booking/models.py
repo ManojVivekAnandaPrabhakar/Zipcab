@@ -14,3 +14,7 @@ class Booking(models.Model):
     def __str__(self):
         return f"Booking by {self.user.username} for {self.vehicle_choice} to {self.drop_location}"
 
+
+    
+
+
