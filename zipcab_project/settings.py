@@ -4,12 +4,12 @@ import os
 from decouple import config
 import dj_database_url
 from dotenv import load_dotenv  # ✅ Fix this import
-import django_heroku 
+
 
 
 load_dotenv() 
 # Activate Django-Heroku
-django_heroku.settings(locals())
+
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,3 +107,9 @@ API_KEY = config('API_KEY')
 # Login/logout redirects
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+
+
+import django_heroku
+django_heroku.settings(locals())  # ❌ wrong position
