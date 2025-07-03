@@ -1,8 +1,11 @@
 from pathlib import Path
+import os
+
 from decouple import config
 import dj_database_url
-import dotenv
+from dotenv import load_dotenv  # ✅ Fix this import
 
+load_dotenv() 
 # Activate Django-Heroku
 django_heroku.settings(locals())
 
