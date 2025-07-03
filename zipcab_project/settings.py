@@ -162,8 +162,7 @@ ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # WhiteNoise to serve static files on Heroku
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
