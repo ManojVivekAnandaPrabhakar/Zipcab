@@ -4,6 +4,8 @@ import os
 from decouple import config
 import dj_database_url
 from dotenv import load_dotenv  # ✅ Fix this import
+import django_heroku 
+
 
 load_dotenv() 
 # Activate Django-Heroku
