@@ -1,6 +1,10 @@
 from pathlib import Path
 from decouple import config
 import dj_database_url
+import dotenv
+
+# Activate Django-Heroku
+django_heroku.settings(locals())
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +14,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 # Hosts
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
+
 
 # Installed apps
 INSTALLED_APPS = [
@@ -81,7 +87,7 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # ✅ Required by Heroku
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ✅ Required by Heroku
 STATICFILES_DIRS = []  # You can add 'BASE_DIR / "static"' if needed
 
 # WhiteNoise static files handling
