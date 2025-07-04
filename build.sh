@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # build.sh
 
-set -o errexit  # exit on error
+set -o errexit  # Exit on error
 
 # Install dependencies
 pip install -r requirements.txt

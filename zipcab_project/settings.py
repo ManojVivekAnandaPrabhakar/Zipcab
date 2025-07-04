@@ -62,8 +62,6 @@ TEMPLATES = [
 ]
 
 # ✅ Use PostgreSQL from Render (via DATABASE_URL)
-import dj_database_url
-
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get("DATABASE_URL"),
@@ -88,6 +86,7 @@ USE_TZ = True
 # Static files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = []
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
