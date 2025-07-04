@@ -1,27 +1,21 @@
 from pathlib import Path
 import os
-
-from decouple import config
 import dj_database_url
-from dotenv import load_dotenv  # ✅ Fix this import
-
-
-
-load_dotenv() 
-# Activate Django-Heroku
-
+from dotenv import load_dotenv
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key and debug
-SECRET_KEY = config("SECRET_KEY")
-DEBUG = config("DEBUG", default=False, cast=bool)
+# Load .env if it exists (optional, local dev only)
+load_dotenv()
 
-# Hosts
-# ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', 'localhost']
+# Secret Key and Debug
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+API_KEY = os.environ.get("API_KEY")
+
+# Allowed Hosts
 ALLOWED_HOSTS = ['*']
-
 
 # Installed apps
 INSTALLED_APPS = [
@@ -31,14 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'cab_booking.apps.CabBookingConfig',
 ]
 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Moved up correctly
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,7 +40,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URLs and WSGI
+# URL conf and WSGI
 ROOT_URLCONF = 'zipcab_project.urls'
 WSGI_APPLICATION = 'zipcab_project.wsgi.application'
 
@@ -59,8 +52,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',
                 'django.template.context_processors.debug',
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -68,12 +61,16 @@ TEMPLATES = [
     },
 ]
 
-# Database (Heroku Postgres or SQLite fallback)
+# ✅ Use PostgreSQL from Render (via DATABASE_URL)
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    }
 }
 
 # Password validators
@@ -92,24 +89,13 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ✅ Required by Heroku
-STATICFILES_DIRS = []  # You can add 'BASE_DIR / "static"' if needed
-
-# WhiteNoise static files handling
+STATICFILES_DIRS = []
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key
+# Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# API Key (from environment)
-API_KEY = config('API_KEY')
-
-# Login/logout redirects
+# Login/Logout
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-
-
-
-import django_heroku
-django_heroku.settings(locals())  # ❌ wrong position

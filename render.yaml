@@ -1,0 +1,27 @@
+# render.yaml
+
+services:
+  - type: web
+    name: zipcab
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn zipcab_project.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: zipcab
+          property: connectionString
+      - key: SECRET_KEY
+        sync: false
+      - key: DEBUG
+        sync: false
+      - key: API_KEY
+        sync: false
+
+databases:
+  - name: zipcab
+    plan: free
+
+
+
