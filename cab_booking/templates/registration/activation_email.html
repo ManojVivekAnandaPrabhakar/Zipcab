@@ -9,7 +9,8 @@
         We've sent an email to <span class="font-semibold text-blue-600">{{ email }}</span> with further instructions.
     </p>
     <p class="text-sm text-gray-500">
-        Didn’t receive it? Check your spam folder or <a href="{% url 'resend_verification' %}" class="text-blue-600 hover:underline font-semibold">Resend Email</a>.
+        Didn’t receive it? Check your spam folder or <a href="{% url 'resend_verification' user.id %}" class="text-blue-600 hover:underline font-semibold">Resend Email</a>
+.
     </p>
 </div>
 {% endblock %}

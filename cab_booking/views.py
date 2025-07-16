@@ -99,12 +99,13 @@ def send_verification_email(request, user):
 
     subject = 'Activate Your ZipCab Account'
     message = render_to_string('registration/activation_email.html', {
-        'user': user,
+        'user': user,  # ✅ So we can use user.id in template
         'verification_link': verification_link,
         'domain': current_site.domain,
     })
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+
 
 
 def register(request):
