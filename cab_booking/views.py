@@ -12,6 +12,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
+from .forms import CustomUserCreationForm  # ✅ import your custom form
+
 
 from .models import Booking
 
@@ -107,12 +109,12 @@ def send_verification_email(request, user):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)  # ✅ use custom form
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
+            user.is_active = False  # ✅ deactivate until email confirmed
             user.save()
-            send_verification_email(request, user)
+            send_verification_email(request, user)  # ✅ send email
             messages.success(request, f"Account created for {user.username}! Please verify your email before logging in.")
             return redirect('login')
         else:
@@ -120,8 +122,9 @@ def register(request):
                 for error in errors:
                     messages.error(request, f"{field.capitalize()}: {error}")
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()  # ✅ use custom form
     return render(request, 'cab_booking/register.html', {'form': form})
+
 
 
 def activate_account(request, uidb64, token):

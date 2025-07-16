@@ -112,3 +112,5 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
