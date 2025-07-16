@@ -214,3 +214,20 @@ def booking_view(request):
 def my_bookings(request):
     user_bookings = Booking.objects.filter(user=request.user).order_by('-booking_time')
     return render(request, 'cab_booking/my_bookings.html', {'bookings': user_bookings})
+
+
+from django.contrib.auth import get_user_model
+
+def resend_verification(request, user_id):
+    User = get_user_model()
+    try:
+        user = User.objects.get(pk=user_id)
+        if not user.is_active:
+            send_verification_email(request, user)
+            messages.success(request, "🔁 A new verification email has been sent.")
+        else:
+            messages.info(request, "✅ Your account is already active.")
+    except User.DoesNotExist:
+        messages.error(request, "❌ User not found.")
+
+    return redirect('login')

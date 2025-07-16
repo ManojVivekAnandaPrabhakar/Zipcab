@@ -10,4 +10,6 @@ urlpatterns = [
 
     # ✅ NEW — Email activation route
     path('activate/<uidb64>/<token>/', activate_account, name='activate'),
+    path('resend-verification/<int:user_id>/', views.resend_verification, name='resend_verification'),
+
 ]
