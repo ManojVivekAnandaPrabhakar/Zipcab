@@ -1,0 +1,15 @@
+{% extends 'cab_booking/base.html' %}
+
+{% block title %}Check Your Email - ZipCab{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg text-center">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">📧 Email Sent</h1>
+    <p class="text-gray-700 text-base mb-4">
+        We've sent an email to <span class="font-semibold text-blue-600">{{ email }}</span> with further instructions.
+    </p>
+    <p class="text-sm text-gray-500">
+        Didn’t receive it? Check your spam folder or <a href="{% url 'resend_verification' %}" class="text-blue-600 hover:underline font-semibold">Resend Email</a>.
+    </p>
+</div>
+{% endblock %}

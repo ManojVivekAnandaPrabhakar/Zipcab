@@ -1,0 +1,11 @@
+{% extends 'cab_booking/base.html' %}
+
+{% block title %}Password Changed - ZipCab{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg text-center">
+    <h1 class="text-2xl font-bold text-green-600 mb-4">✅ Password Changed</h1>
+    <p class="text-gray-700 text-base mb-4">Your password has been successfully reset.</p>
+    <a href="{% url 'login' %}" class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition duration-300">Login Now</a>
+</div>
+{% endblock %}
