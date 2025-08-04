@@ -13,9 +13,19 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from .forms import CustomUserCreationForm  # ✅ import your custom form
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+import logging
 
+logger = logging.getLogger(__name__)
 
 from .models import Booking
+
 
 
 # ======================== UTILITY FUNCTIONS ========================
@@ -99,13 +109,26 @@ def send_verification_email(request, user):
 
     subject = 'Activate Your ZipCab Account'
     message = render_to_string('registration/activation_email.html', {
-        'user': user,  # ✅ So we can use user.id in template
+        'user': user,
         'verification_link': verification_link,
         'domain': current_site.domain,
     })
 
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+    if not user.email:
+        logger.warning(f"❌ Email not sent — user.email is empty for user {user.username}")
+        return
 
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False,  # important for debugging
+        )
+        logger.info(f"✅ Verification email sent to {user.email}")
+    except Exception as e:
+        logger.error(f"❌ Failed to send verification email to {user.email}: {str(e)}")
 
 
 def register(request):
